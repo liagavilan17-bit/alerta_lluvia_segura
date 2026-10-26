@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#07111f">
+<title>Alerta Lluvia Segura | Monitoreo inteligente</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>
+:root{--bg:#07111f;--panel:#0d1b2d;--panel2:#10243a;--line:#20364e;--text:#eaf4ff;--muted:#9bb0c7;--cyan:#42d9f5;--blue:#438bff;--green:#37d39a;--yellow:#ffc857;--red:#ff647c}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(ellipse at top,#102843 0,#07111f 55%);color:var(--text);font-family:Inter,Segoe UI,Arial,sans-serif;min-height:100vh}button,input,select{font:inherit}button{cursor:pointer;border:0}.wrap{max-width:1240px;margin:auto;padding:22px}.topbar{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;padding:14px 0 22px;border-bottom:1px solid var(--line)}.brand{display:flex;gap:12px;align-items:center}.logo{width:48px;height:48px;border-radius:15px;display:grid;place-items:center;background:linear-gradient(135deg,#16bad9,#3e7bff);font-size:25px;box-shadow:0 8px 30px #1b9ed733}.brand h1{font-size:19px;letter-spacing:.2px;margin:0}.brand p{margin:4px 0 0;color:var(--muted);font-size:12px}.nav{display:flex;gap:8px;flex-wrap:wrap}.nav button,.btn{border:1px solid var(--line);border-radius:11px;padding:10px 14px;background:#102137;color:var(--text);font-weight:650;transition:.2s}.nav button:hover,.btn:hover{border-color:var(--cyan);transform:translateY(-1px)}.nav button.active,.btn.primary{background:linear-gradient(135deg,#0e9fbd,#386ef4);border-color:transparent}.btn.secondary{background:#132940}.btn.danger{border-color:#743b50;background:#351b2b}.status-pill{display:inline-flex;align-items:center;gap:7px;border:1px solid #2a4a60;background:#0c2434;padding:8px 11px;border-radius:999px;font-size:12px;color:#bcecff}.dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 12px #37d39a77}.hero{padding:30px 0 22px;display:grid;grid-template-columns:1.4fr .6fr;gap:18px;align-items:stretch}.eyebrow{color:var(--cyan);font-size:12px;letter-spacing:1.7px;font-weight:800;text-transform:uppercase}.hero h2{font-size:clamp(28px,4vw,43px);line-height:1.08;margin:10px 0 12px;max-width:750px}.hero p{color:var(--muted);line-height:1.65;max-width:740px;margin:0}.hero-card,.card,.metric{background:linear-gradient(150deg,#10243aee,#0b1929ee);border:1px solid var(--line);border-radius:18px;box-shadow:0 12px 35px #0002}.hero-card{padding:20px;display:flex;flex-direction:column;justify-content:center;gap:12px}.hero-card .big{font-size:28px;font-weight:800}.muted{color:var(--muted)}.small{font-size:12px}.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin:8px 0 22px}.metric{padding:17px}.metric-head{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:12px}.metric-icon{font-size:20px}.metric-value{font-size:29px;font-weight:800;margin:13px 0 5px}.metric-foot{font-size:12px;color:var(--muted)}.section{margin:22px 0;scroll-margin-top:20px}.section-head{display:flex;justify-content:space-between;align-items:end;gap:12px;flex-wrap:wrap;margin-bottom:13px}.section-head h3{margin:0;font-size:20px}.section-head p{margin:5px 0 0;color:var(--muted);font-size:13px}.grid2{display:grid;grid-template-columns:1.25fr .75fr;gap:15px}.card{padding:18px;min-width:0}.card h4{margin:0 0 8px;font-size:15px}.card p{color:var(--muted);font-size:13px;line-height:1.5}.map-wrap{position:relative}.map{height:390px;border-radius:13px;overflow:hidden;background:#10243a;z-index:1}.map-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.leaflet-container{font-family:inherit}.leaflet-popup-content-wrapper,.leaflet-popup-tip{background:#10243a;color:#eaf4ff}.leaflet-control-attribution{font-size:9px!important}.location-note{margin-top:10px;padding:10px 12px;border-radius:10px;background:#0a2130;color:#a9ddeb;font-size:12px;min-height:38px}.level{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 0;border-bottom:1px solid var(--line)}.level:last-child{border-bottom:0}.level-left{display:flex;align-items:center;gap:10px}.level-symbol{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:#173049}.tag{border-radius:999px;padding:5px 9px;font-size:11px;font-weight:800}.tag.green{background:#123d35;color:#75edc1}.tag.yellow{background:#49391b;color:#ffdc84}.tag.red{background:#4b2030;color:#ff9bac}.tag.gray{background:#26364a;color:#b9c8d9}.bar{height:8px;background:#1a3046;border-radius:99px;overflow:hidden;margin:10px 0}.bar span{display:block;height:100%;width:18%;background:linear-gradient(90deg,var(--green),var(--cyan));border-radius:99px;transition:width .3s}.chart{height:190px;width:100%;display:block}.history{width:100%;border-collapse:collapse;font-size:13px}.history th,.history td{text-align:left;padding:11px 8px;border-bottom:1px solid var(--line)}.history th{color:var(--muted);font-weight:600}.empty{text-align:center;color:var(--muted);padding:25px 8px}.alert-list{display:grid;gap:9px}.alert-item{display:flex;gap:10px;align-items:flex-start;background:#0b1b2c;border:1px solid var(--line);padding:12px;border-radius:12px}.alert-item strong{font-size:13px}.alert-item p{margin:4px 0 0;font-size:12px}.alert-item .alert-icon{font-size:20px}.form-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.form-row label{font-size:12px;color:var(--muted)}select,input[type=number]{background:#0a1929;border:1px solid var(--line);color:var(--text);padding:10px;border-radius:10px}.toggle{display:flex;align-items:center;gap:9px;color:var(--muted);font-size:13px}.toggle input{accent-color:var(--cyan)}.toast-area{position:fixed;right:18px;top:18px;z-index:9999;display:grid;gap:9px;width:min(360px,calc(100vw - 36px))}.toast{background:#10283d;border:1px solid #2b5269;border-left:4px solid var(--cyan);border-radius:12px;padding:13px 15px;box-shadow:0 12px 35px #0008;animation:slide .2s ease}.toast strong{font-size:13px}.toast p{margin:5px 0 0;color:#c0d2e4;font-size:12px;line-height:1.45}.toast.warning{border-left-color:var(--yellow)}.toast.error{border-left-color:var(--red)}@keyframes slide{from{transform:translateY(-7px);opacity:0}to{transform:none;opacity:1}}footer{padding:25px 0 12px;border-top:1px solid var(--line);margin-top:30px;color:var(--muted);font-size:12px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}.hidden{display:none!important}.pulse{animation:pulse 1.4s infinite}@keyframes pulse{50%{opacity:.45}}@media(max-width:850px){.hero,.grid2{grid-template-columns:1fr}.metrics{grid-template-columns:repeat(2,1fr)}.map{height:340px}}@media(max-width:480px){.wrap{padding:14px}.metrics{gap:8px}.metric{padding:13px}.metric-value{font-size:24px}.nav{width:100%}.nav button{flex:1;padding:9px 8px}.hero{padding-top:22px}.map{height:300px}.history{font-size:11px}}
+</style>
+</head>
+<body>
+<div class="toast-area" id="toastArea" aria-live="polite"></div>
+<div class="wrap">
+<header class="topbar">
+  <div class="brand"><div class="logo">🌧️</div><div><h1>ALERTA LLUVIA SEGURA</h1><p>MONITOREO INTELIGENTE · PREVENCIÓN DE INUNDACIONES</p></div></div>
+  <nav class="nav" aria-label="Navegación principal">
+    <button class="active" data-target="inicio">Inicio</button><button data-target="mapa-section">Mapa</button><button data-target="estadisticas">Estadísticas</button><button data-target="alertas">Alertas</button>
+  </nav>
+  <span class="status-pill"><span class="dot" id="statusDot"></span><span id="statusText">Sistema en línea · modo demostración</span></span>
+</header>
+<main>
+<section class="hero" id="inicio">
+  <div><div class="eyebrow">Tecnología para prevenir</div><h2>Anticiparse a la lluvia puede marcar la diferencia.</h2><p>Plataforma de monitoreo para visualizar el estado del agua, consultar ubicaciones y presentar alertas preventivas. Los valores de esta vista son de demostración hasta conectar un sensor físico.</p></div>
+  <div class="hero-card"><div class="eyebrow">Estado del monitoreo</div><div class="big" id="heroStatus">Sin riesgo simulado</div><div class="muted" id="heroText">Esperando datos del sistema.</div><div class="bar"><span id="riskBar"></span></div><div class="form-row"><button class="btn primary" id="testAlertBtn">Probar alerta</button><button class="btn secondary" id="notifyBtn">Activar notificaciones</button></div></div>
+</section>
+<section class="metrics" aria-label="Indicadores principales">
+  <div class="metric"><div class="metric-head"><span>Nivel de agua</span><span class="metric-icon">🌊</span></div><div class="metric-value"><span id="waterLevel">12</span> <small style="font-size:14px;color:var(--muted)">cm</small></div><div class="metric-foot" id="waterFoot">Lectura simulada</div></div>
+  <div class="metric"><div class="metric-head"><span>Lluvia estimada</span><span class="metric-icon">🌧️</span></div><div class="metric-value"><span id="rainLevel">8</span> <small style="font-size:14px;color:var(--muted)">mm/h</small></div><div class="metric-foot">Valor demostrativo</div></div>
+  <div class="metric"><div class="metric-head"><span>Estado de alerta</span><span class="metric-icon">🛡️</span></div><div class="metric-value" id="alertLevel" style="font-size:22px">Normal</div><div class="metric-foot" id="alertFoot">Sin alerta simulada</div></div>
+  <div class="metric"><div class="metric-head"><span>Última actualización</span><span class="metric-icon">🕒</span></div><div class="metric-value" id="lastUpdate" style="font-size:20px">--:--:--</div><div class="metric-foot">Hora local del dispositivo</div></div>
+</section>
+<section class="section" id="mapa-section">
+  <div class="section-head"><div><h3>Mapa de monitoreo</h3><p>Zona de referencia: Alberdi, Ñeembucú, Paraguay.</p></div><span class="tag gray" id="mapStatus">Mapa cargando…</span></div>
+  <div class="grid2">
+    <div class="card map-wrap"><div id="map" class="map" aria-label="Mapa interactivo de la zona"></div><div class="map-actions"><button class="btn primary" id="locateBtn">📍 Usar mi ubicación</button><button class="btn secondary" id="centerBtn">⌖ Volver a Alberdi</button></div><div class="location-note" id="locationNote">El mapa muestra una ubicación de referencia. La ubicación personal solo se obtiene con tu permiso.</div></div>
+    <div class="card"><h4>Condición del sistema</h4><p>Los estados se calculan con los valores que muestra esta página. El monitoreo físico se habilita cuando exista una fuente de datos real.</p>
+      <div class="level"><div class="level-left"><div class="level-symbol">🟢</div><div><strong>Normal</strong><div class="small muted">Nivel bajo</div></div></div><span class="tag green">0–29 cm</span></div>
+      <div class="level"><div class="level-left"><div class="level-symbol">🟡</div><div><strong>Precaución</strong><div class="small muted">Vigilar el nivel</div></div></div><span class="tag yellow">30–59 cm</span></div>
+      <div class="level"><div class="level-left"><div class="level-symbol">🔴</div><div><strong>Alerta alta</strong><div class="small muted">Requiere atención</div></div></div><span class="tag red">60 cm o más</span></div>
+      <div style="margin-top:15px"><span class="tag gray">MODO DEMOSTRACIÓN</span><p class="small">No uses datos simulados para tomar decisiones de seguridad. Confirmá las condiciones con autoridades y mediciones reales.</p></div>
+    </div>
+  </div>
+</section>
+<section class="section" id="estadisticas">
+  <div class="section-head"><div><h3>Estadísticas del monitoreo</h3><p>Historial local de las lecturas de demostración de esta sesión.</p></div><div class="form-row"><button class="btn secondary" id="simulateBtn">Generar lectura simulada</button><button class="btn secondary" id="clearBtn">Limpiar historial</button></div></div>
+  <div class="grid2">
+    <div class="card"><h4>Evolución del nivel de agua</h4><canvas class="chart" id="chart" aria-label="Gráfico de nivel de agua"></canvas><p class="small">El gráfico usa exclusivamente lecturas simuladas generadas en esta página.</p></div>
+    <div class="card"><h4>Últimas lecturas</h4><div style="overflow-x:auto"><table class="history"><thead><tr><th>Hora</th><th>Nivel</th><th>Estado</th></tr></thead><tbody id="historyBody"><tr><td colspan="3" class="empty">Todavía no hay lecturas.</td></tr></tbody></table></div></div>
+  </div>
+</section>
+<section class="section" id="alertas">
+  <div class="section-head"><div><h3>Centro de alertas</h3><p>Mensajes del funcionamiento de la interfaz y de las pruebas.</p></div><label class="toggle"><input type="checkbox" id="soundToggle"> Sonido al probar una alerta</label></div>
+  <div class="grid2"><div class="card"><h4>Alertas recientes</h4><div class="alert-list" id="alertList"><div class="empty">No hay alertas nuevas.</div></div></div>
+  <div class="card"><h4>Simulación de nivel</h4><p>Mové el control para probar cómo cambia el estado visual del sistema. Esto no representa una medición real.</p><label for="levelSlider" class="small muted">Nivel simulado: <strong id="sliderValue">12 cm</strong></label><input id="levelSlider" type="range" min="0" max="100" value="12" style="width:100%;accent-color:var(--cyan);margin:16px 0"><div class="form-row"><button class="btn primary" id="applyLevelBtn">Aplicar nivel simulado</button><button class="btn secondary" id="resetBtn">Restablecer</button></div></div></div>
+</section>
+</main>
+<footer><span>Alerta Lluvia Segura · Proyecto Técnico Interdisciplinario</span><span>Colegio Nacional Juan Bautista Alberdi · Ñeembucú, Paraguay</span><span id="footerMode">Datos de demostración · No conectado a sensores físicos</span></footer>
+</div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+"use strict";
+const $ = id => document.getElementById(id);
+const alberdi = [-26.43, -57.00];
+let map, referenceMarker, userMarker, water = 12, rain = 8, history = [], alertHistory = [];
+const fmtTime = () => new Date().toLocaleTimeString('es-PY',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+function avisar(title,message,type='info',timeout=4500){
+  const el=document.createElement('div'); el.className='toast'+(type==='warning'?' warning':type==='error'?' error':'');
+  const strong=document.createElement('strong');strong.textContent=title;
+  const p=document.createElement('p');p.textContent=message;el.append(strong,p);$('toastArea').append(el);
+  setTimeout(()=>el.remove(),timeout);
+}
+function addAlert(title,message,type='info'){
+  alertHistory.unshift({title,message,type,time:fmtTime()});alertHistory=alertHistory.slice(0,6);
+  const list=$('alertList');list.innerHTML='';
+  alertHistory.forEach(a=>{const item=document.createElement('div');item.className='alert-item';
+    const icon=document.createElement('div');icon.className='alert-icon';icon.textContent=a.type==='error'?'🚨':a.type==='warning'?'⚠️':'🔔';
+    const body=document.createElement('div');const strong=document.createElement('strong');strong.textContent=a.title;
+    const p=document.createElement('p');p.textContent=a.time+' · '+a.message;body.append(strong,p);item.append(icon,body);list.append(item);
+  });
+}
+function levelState(cm){return cm>=60?{name:'Alerta alta',risk:85,tag:'red',msg:'Nivel simulado elevado. Revisar la medición.'}:cm>=30?{name:'Precaución',risk:50,tag:'yellow',msg:'Nivel simulado en zona de precaución.'}:{name:'Normal',risk:18,tag:'green',msg:'Nivel simulado dentro del rango normal.'};}
+function updateDashboard(){
+ const s=levelState(water);$('waterLevel').textContent=water;$('rainLevel').textContent=rain;$('alertLevel').textContent=s.name;$('alertFoot').textContent='Estado calculado con simulación';
+ $('heroStatus').textContent=s.name;$('heroText').textContent=s.msg;$('riskBar').style.width=s.risk+'%';$('riskBar').style.background=s.tag==='red'?'var(--red)':s.tag==='yellow'?'var(--yellow)':'linear-gradient(90deg,var(--green),var(--cyan))';
+ $('lastUpdate').textContent=fmtTime();$('waterFoot').textContent='Dato simulado · no es sensor real';
+ $('sliderValue').textContent=water+' cm';$('levelSlider').value=water;
+ if(s.tag==='red'){$('statusDot').style.background='var(--red)';$('statusText').textContent='Alerta alta simulada';}
+ else if(s.tag==='yellow'){$('statusDot').style.background='var(--yellow)';$('statusText').textContent='Precaución simulada';}
+ else{$('statusDot').style.background='var(--green)';$('statusText').textContent='Sistema en línea · modo demostración';}
+ drawChart();renderHistory();
+}
+function recordReading(){history.unshift({time:fmtTime(),water,state:levelState(water).name});history=history.slice(0,8);updateDashboard();}
+function renderHistory(){const b=$('historyBody');b.innerHTML='';if(!history.length){b.innerHTML='<tr><td colspan="3" class="empty">Todavía no hay lecturas.</td></tr>';return;}
+ history.forEach(r=>{const tr=document.createElement('tr');[r.time,r.water+' cm',r.state].forEach((v,i)=>{const td=document.createElement('td');td.textContent=v;if(i===2){const s=levelState(r.water);td.style.color=s.tag==='red'?'var(--red)':s.tag==='yellow'?'var(--yellow)':'var(--green)';}tr.append(td);});b.append(tr);});}
+function drawChart(){const c=$('chart');if(!c)return;const rect=c.getBoundingClientRect();const dpr=window.devicePixelRatio||1;c.width=Math.max(300,rect.width)*dpr;c.height=190*dpr;const ctx=c.getContext('2d');ctx.scale(dpr,dpr);const w=c.width/dpr,h=190;ctx.clearRect(0,0,w,h);const pad={l:30,r:12,t:15,b:24},pw=w-pad.l-pad.r,ph=h-pad.t-pad.b;
+ ctx.font='11px Segoe UI';ctx.strokeStyle='#233b52';ctx.fillStyle='#91a9c1';ctx.lineWidth=1;
+ [0,25,50,75,100].forEach(v=>{const y=pad.t+ph-(v/100)*ph;ctx.beginPath();ctx.moveTo(pad.l,y);ctx.lineTo(w-pad.r,y);ctx.stroke();ctx.fillText(v+'',4,y+4);});
+ const arr=history.slice(0,8).reverse();if(arr.length===0){ctx.fillText('Generá una lectura para ver el gráfico',pad.l+8,h/2);return;}
+ const points=arr.map((r,i)=>({x:pad.l+(arr.length===1?pw/2:i/(arr.length-1)*pw),y:pad.t+ph-(r.water/100)*ph}));
+ ctx.beginPath();points.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));ctx.strokeStyle='#42d9f5';ctx.lineWidth=2.5;ctx.stroke();
+ points.forEach(p=>{ctx.beginPath();ctx.arc(p.x,p.y,3.5,0,Math.PI*2);ctx.fillStyle='#42d9f5';ctx.fill();});
+}
+async function activarNotificaciones(){
+ if(!('Notification' in window)){avisar('Notificaciones no disponibles','Este navegador no admite notificaciones.','error');return;}
+ if(!window.isSecureContext){avisar('Contexto no seguro','Usá localhost con Live Server o publicá la página en HTTPS.','warning');}
+ try{
+  let permission=Notification.permission;
+  if(permission==='default')permission=await Notification.requestPermission();
+  if(permission==='granted'){
+   try{new Notification('🌧️ Alerta Lluvia Segura',{body:'Notificaciones habilitadas. Este aviso es una prueba; no hay sensores reales conectados.'});}catch(e){}
+   avisar('Notificaciones activadas','El navegador concedió el permiso. Esta página todavía usa datos de demostración.');addAlert('Notificaciones activadas','Permiso del navegador concedido.','info');
+  }else if(permission==='denied'){avisar('Permiso bloqueado','El navegador bloqueó las notificaciones para este sitio. Revisá los permisos del sitio.','error');addAlert('Permiso bloqueado','El navegador no autorizó las notificaciones.','error');}
+  else{avisar('Permiso no concedido','No se concedió permiso para mostrar notificaciones.','warning');}
+ }catch(err){avisar('No se pudieron activar','El navegador no permitió mostrar notificaciones. Probá en localhost o HTTPS.','error');console.error(err);}
+}
+function enviarNotificacion(title,body){
+ avisar(title,body,water>=60?'error':water>=30?'warning':'info');addAlert(title,body,water>=60?'error':water>=30?'warning':'info');
+ if('Notification'in window && Notification.permission==='granted'){try{new Notification(title,{body});}catch(e){console.warn('Notificación del sistema no disponible',e);}}
+}
+function reproducirSonido(){if(!$('soundToggle').checked)return;try{const A=window.AudioContext||window.webkitAudioContext;if(!A)return;const c=new A(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.frequency.value=660;g.gain.value=.07;o.start();o.stop(c.currentTime+.18);o.onended=()=>c.close();}catch(e){}}
+function initMap(){
+ if(!window.L){$('mapStatus').textContent='Mapa no disponible';$('locationNote').textContent='No se pudo cargar la biblioteca del mapa. Revisá tu conexión a Internet.';return;}
+ map=L.map('map').setView(alberdi,12);
+ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap'}).addTo(map);
+ referenceMarker=L.marker(alberdi).addTo(map).bindPopup('<strong>Alberdi, Ñeembucú</strong><br>Ubicación de referencia del proyecto.');
+ L.circle(alberdi,{radius:900,color:'#42d9f5',fillColor:'#42d9f5',fillOpacity:.08,weight:1}).addTo(map);
+ $('mapStatus').textContent='Mapa activo';referenceMarker.openPopup();setTimeout(()=>map.invalidateSize(),250);
+}
+function locateUser(){
+ if(!navigator.geolocation){avisar('Ubicación no disponible','Este navegador no ofrece geolocalización.','error');return;}
+ $('locateBtn').disabled=true;$('locateBtn').textContent='Buscando ubicación…';
+ navigator.geolocation.getCurrentPosition(pos=>{
+  const lat=pos.coords.latitude,lon=pos.coords.longitude;
+  if(userMarker)map.removeLayer(userMarker);
+  userMarker=L.marker([lat,lon]).addTo(map).bindPopup('<strong>Tu ubicación aproximada</strong><br>Obtenida con permiso del navegador.').openPopup();
+  map.setView([lat,lon],15);$('locationNote').textContent='Ubicación obtenida correctamente con el permiso del navegador.';avisar('Ubicación encontrada','El mapa se centró en tu ubicación.');$('locateBtn').disabled=false;$('locateBtn').textContent='📍 Usar mi ubicación';
+ },err=>{
+  const msgs={1:'No se concedió permiso para la ubicación.',2:'No se pudo determinar tu ubicación.',3:'La solicitud de ubicación tardó demasiado.'};
+  $('locationNote').textContent=msgs[err.code]||'No se pudo obtener la ubicación.';avisar('No se pudo obtener ubicación',msgs[err.code]||'Revisá los permisos del navegador.','error');$('locateBtn').disabled=false;$('locateBtn').textContent='📍 Usar mi ubicación';
+ },{enableHighAccuracy:true,timeout:12000,maximumAge:30000});
+}
+document.querySelectorAll('.nav button').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');$(btn.dataset.target).scrollIntoView({behavior:'smooth',block:'start'});if(btn.dataset.target==='mapa-section'&&map)setTimeout(()=>map.invalidateSize(),300);}));
+$('notifyBtn').addEventListener('click',activarNotificaciones);
+$('testAlertBtn').addEventListener('click',()=>{enviarNotificacion('🔔 Prueba de Alerta Lluvia Segura','Esta es una alerta de prueba de la página. No es una advertencia meteorológica real.');reproducirSonido();});
+$('locateBtn').addEventListener('click',locateUser);
+$('centerBtn').addEventListener('click',()=>{if(map){map.setView(alberdi,12);referenceMarker.openPopup();$('locationNote').textContent='Mapa centrado nuevamente en Alberdi, Ñeembucú.';}});
+$('simulateBtn').addEventListener('click',()=>{water=Math.floor(Math.random()*76);rain=Math.floor(Math.random()*45);recordReading();avisar('Lectura simulada generada',`Nivel: ${water} cm. Estado: ${levelState(water).name}.`);});
+$('applyLevelBtn').addEventListener('click',()=>{water=Number($('levelSlider').value);rain=Math.max(0,Math.round(water*.42));recordReading();avisar('Nivel simulado actualizado',`${water} cm · ${levelState(water).name}.`);if(water>=30){enviarNotificacion(water>=60?'🚨 Alerta alta simulada':'⚠️ Precaución simulada',levelState(water).msg);reproducirSonido();}});
+$('levelSlider').addEventListener('input',()=>{$('sliderValue').textContent=$('levelSlider').value+' cm';});
+$('resetBtn').addEventListener('click',()=>{water=12;rain=8;recordReading();avisar('Valores restablecidos','Se restablecieron los valores de demostración.');});
+$('clearBtn').addEventListener('click',()=>{history=[];updateDashboard();avisar('Historial limpiado','Se eliminaron las lecturas de demostración de esta sesión.');});
+window.addEventListener('resize',drawChart);
+initMap();recordReading();addAlert('Sistema iniciado','Página iniciada en modo demostración; no hay sensores físicos conectados.','info');
+</script>
+</body>
+</html>
